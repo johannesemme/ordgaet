@@ -1,27 +1,46 @@
 .page {
-  --cell: min(52px, 13vw);
-  min-height: 100dvh;
+  /*
+   * Every row holds EIGHT cells, not five: the word, then the three counts.
+   * Sizing on five was why the grid overflowed every phone.
+   *
+   * The cell is the smallest of three limits:
+   *   52px            — never larger than this, even on a desktop
+   *   (100vw - 64)/8  — eight cells plus their gaps must fit the width
+   *   (100dvh - 352)/8 — eight rows must fit what the header, message and
+   *                      keyboard leave behind
+   *
+   * dvh rather than vh so the mobile browser's collapsing address bar is
+   * accounted for; vh measures the tallest state and overflows the real one.
+   */
+  --cell: min(52px, calc((100vw - 64px) / 8), calc((100dvh - 352px) / 8));
+
+  height: 100dvh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
-  padding: 12px;
+  gap: 10px;
+  overflow: hidden;
+
+  /* Keep clear of the notch and the home indicator on iPhones. */
+  padding: max(8px, env(safe-area-inset-top)) max(8px, env(safe-area-inset-right))
+    max(8px, env(safe-area-inset-bottom)) max(8px, env(safe-area-inset-left));
 }
 
 .header {
   text-align: center;
+  flex-shrink: 0;
 }
 
 .title {
-  font-size: 26px;
+  font-size: clamp(20px, 5.5vw, 26px);
   letter-spacing: -0.02em;
   margin: 4px 0 2px;
 }
 
 .subtitle {
   color: var(--muted);
-  font-size: 13px;
+  font-size: clamp(11px, 3.2vw, 13px);
   margin: 0;
 }
 

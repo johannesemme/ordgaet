@@ -29,11 +29,18 @@ body {
     sans-serif;
 }
 
-/* The game fills the viewport; nothing should scroll sideways. */
+html,
 body {
-  overflow-x: hidden;
+  /* The game fits the viewport by design; nothing should scroll or bounce. */
+  overflow: hidden;
+  overscroll-behavior: none;
+  /* Stop iOS inflating text in landscape. */
+  -webkit-text-size-adjust: 100%;
 }
 
 button {
   cursor: pointer;
+  /* No grey flash on tap, and no accidental text selection from fast tapping. */
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
 }
