@@ -8,6 +8,11 @@
  *
  * Safe to run more than once: rows are upserted on the unique word column, so
  * re-running updates rather than duplicating.
+ *
+ * Only `word` and `no_repeats` are written. The `in_use` column is deliberately
+ * left alone, so re-seeding never undoes curation done in the admin panel.
+ * New words therefore arrive with in_use = false and must be opted in before
+ * they can ever be the hidden answer.
  */
 import { createClient } from "@supabase/supabase-js";
 import { parseDictionary } from "../src/lib/words";
