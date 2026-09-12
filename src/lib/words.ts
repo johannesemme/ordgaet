@@ -7,7 +7,13 @@ const DANISH_LETTERS = new Set([..."ABCDEFGHIJKLMNOPQRSTUVWXYZÆØÅ"]);
 /** A word as it is stored: uppercase, exactly five Danish letters. */
 export type ImportableWord = {
   word: string;
-  /** May this word be chosen as the hidden answer? */
+  /**
+   * The word's five letters are all different.
+   *
+   * Answers must satisfy this, because score() counts distinct shared letters
+   * and underflows otherwise. It is necessary but not sufficient: a word is
+   * only drawn as an answer once someone also sets its in_use column.
+   */
   noRepeats: boolean;
 };
 
@@ -25,8 +31,8 @@ export type ImportableWord = {
  *    imported spellings like "cañon".
  *
  * Repeated letters are NOT a reason to reject. A word with repeats is a
- * perfectly legal guess; it just cannot be the answer, which is what the
- * noRepeats flag records.
+ * perfectly legal guess — it is simply never eligible to be the hidden
+ * answer, which is what the noRepeats flag records.
  */
 export function toImportableWord(raw: string): ImportableWord | null {
   // The source is a hunspell dictionary: "word/AFFIXFLAGS".
