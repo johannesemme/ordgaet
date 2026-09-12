@@ -1,13 +1,13 @@
 .grid {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: clamp(3px, 1.2vw, 6px);
   align-items: center;
 }
 
 .row {
   display: flex;
-  gap: 6px;
+  gap: clamp(3px, 1.2vw, 6px);
 }
 
 .cell {
@@ -24,6 +24,7 @@
   padding: 0;
   color: inherit;
   font-family: inherit;
+  touch-action: manipulation;
 }
 
 /* The cell the next typed letter will land in. */
