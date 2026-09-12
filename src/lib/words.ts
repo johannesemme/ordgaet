@@ -25,7 +25,8 @@ export type ImportableWord = {
  *
  * The rules, and why:
  *  - Proper nouns are dropped. The source capitalises them, so a leading
- *    capital is the signal. Nobody wants KØBEN as a puzzle answer.
+ *    capital is the signal. This removes names like METTE and ÅRHUS, which
+ *    are real five-letter words but poor puzzle answers.
  *  - Exactly five letters.
  *  - Only the 29 Danish letters, which rejects hyphens, apostrophes and
  *    imported spellings like "cañon".

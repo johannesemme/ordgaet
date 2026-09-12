@@ -14,11 +14,11 @@ export type Score = {
 };
 
 /**
- * Does a word contain the same letter twice?
+ * Answers must never repeat a letter — see score() for why.
  *
- * Answers must never repeat a letter — see score() for why. Use this when
- * importing words and in the admin, so the rule is enforced at the edges
- * rather than assumed in the middle.
+ * The database enforces this with a check constraint, so a bad row cannot be
+ * written even by hand. This function exists so the import and the admin can
+ * report the problem clearly instead of surfacing a Postgres error.
  */
 export function hasRepeatedLetters(word: string): boolean {
   const letters = [...word];
@@ -29,7 +29,9 @@ export function hasRepeatedLetters(word: string): boolean {
  * Score a guess against the answer.
  *
  * Both words must be uppercase and the same length, and the answer must not
- * repeat a letter. Callers validate that; this function assumes it.
+ * repeat a letter. This function assumes all three; it does not check them.
+ * Length and case are guaranteed by the words table's check constraints, and
+ * the API uppercases each guess before it gets here.
  *
  * Greens are counted by position. Then we count the distinct letters the two
  * words share at all — placed or not — and subtract the greens to get yellows.

@@ -5,7 +5,6 @@
  * the scoring logic, the API and the interface.
  */
 
-/** Length of every word in the game. */
 export const WORD_LENGTH = 5;
 
 /** How many attempts a player gets before the game is lost. */
