@@ -2,6 +2,7 @@
 
 import { MAX_GUESSES, WORD_LENGTH } from "@/lib/config";
 import styles from "./Grid.module.css";
+import { markKey, markLabel, type Marks } from "./marks";
 import { BLANK, type PlayedRow } from "./types";
 
 type Props = {
@@ -9,7 +10,9 @@ type Props = {
   current: string[];
   cursor: number;
   isPlaying: boolean;
+  marks: Marks;
   onSelectCell: (index: number) => void;
+  onToggleMark: (row: number, cell: number) => void;
 };
 
 /** The three count cells shown to the right of every row. */
@@ -35,7 +38,15 @@ function Signals({ row }: { row?: PlayedRow }) {
   );
 }
 
-export function Grid({ played, current, cursor, isPlaying, onSelectCell }: Props) {
+export function Grid({
+  played,
+  current,
+  cursor,
+  isPlaying,
+  marks,
+  onSelectCell,
+  onToggleMark,
+}: Props) {
   return (
     <div className={styles.grid}>
       {Array.from({ length: MAX_GUESSES }, (_, rowIndex) => {
@@ -45,25 +56,41 @@ export function Grid({ played, current, cursor, isPlaying, onSelectCell }: Props
         return (
           <div className={styles.row} key={rowIndex}>
             {Array.from({ length: WORD_LENGTH }, (_, i) => {
-              const letter = row ? row.word[i] : isCurrentRow ? current[i] : "";
-              const shown = letter === BLANK ? "" : letter;
+              // A played letter: clicking cycles the player's own colour note.
+              if (row) {
+                const mark = marks[markKey(rowIndex, i)] ?? null;
+                return (
+                  <button
+                    key={i}
+                    type="button"
+                    className={`${styles.cell} ${mark ? styles[`mark_${mark}`] : ""}`}
+                    onClick={() => onToggleMark(rowIndex, i)}
+                    title={`${row.word[i]} — ${markLabel(mark)}`}
+                    aria-label={`${row.word[i]}, ${markLabel(mark)}. Klik for at skifte farve.`}
+                  >
+                    {row.word[i]}
+                  </button>
+                );
+              }
 
-              // Only the row being typed is interactive; the rest are plain cells.
-              return isCurrentRow ? (
-                <button
-                  key={i}
-                  type="button"
-                  className={`${styles.cell} ${i === cursor ? styles.cursor : ""}`}
-                  onClick={() => onSelectCell(i)}
-                  aria-label={`Bogstav ${i + 1}`}
-                >
-                  {shown}
-                </button>
-              ) : (
-                <span key={i} className={styles.cell}>
-                  {shown}
-                </span>
-              );
+              // The row being typed: clicking moves the cursor.
+              if (isCurrentRow) {
+                const letter = current[i];
+                return (
+                  <button
+                    key={i}
+                    type="button"
+                    className={`${styles.cell} ${i === cursor ? styles.cursor : ""}`}
+                    onClick={() => onSelectCell(i)}
+                    aria-label={`Bogstav ${i + 1}`}
+                  >
+                    {letter === BLANK ? "" : letter}
+                  </button>
+                );
+              }
+
+              // A row not yet reached.
+              return <span key={i} className={styles.cell} />;
             })}
             <Signals row={row} />
           </div>
