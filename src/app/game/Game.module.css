@@ -1,0 +1,67 @@
+.page {
+  --cell: min(52px, 13vw);
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px;
+}
+
+.header {
+  text-align: center;
+}
+
+.title {
+  font-size: 26px;
+  letter-spacing: -0.02em;
+  margin: 4px 0 2px;
+}
+
+.subtitle {
+  color: var(--muted);
+  font-size: 13px;
+  margin: 0;
+}
+
+.board {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Fixed height so the grid never jumps when a message appears or clears. */
+.message {
+  min-height: 22px;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.error {
+  color: var(--red);
+}
+.won {
+  color: var(--green);
+}
+.lost {
+  color: var(--amber);
+}
+
+.again {
+  border: none;
+  border-radius: 6px;
+  background: var(--green);
+  color: #fff;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  padding: 9px 20px;
+  cursor: pointer;
+}
+
+.again:hover {
+  filter: brightness(1.1);
+}

@@ -1,0 +1,56 @@
+.keyboard {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: center;
+  background: var(--surface);
+  padding: 10px;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 520px;
+}
+
+.row {
+  display: flex;
+  gap: 5px;
+  justify-content: center;
+  width: 100%;
+}
+
+.key {
+  flex: 1 1 auto;
+  min-width: 0;
+  height: 46px;
+  border: none;
+  border-radius: 5px;
+  background: var(--key);
+  color: var(--ink);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.key:hover:not(:disabled) {
+  background: var(--key-hover);
+}
+
+.key:focus-visible {
+  outline: 2px solid var(--muted);
+  outline-offset: 2px;
+}
+
+/* A letter already submitted in an earlier guess. The only memory aid the game gives. */
+.used {
+  background: var(--key-used);
+  color: var(--muted);
+}
+
+.wide {
+  flex: 3 1 auto;
+}
+
+.key:disabled {
+  opacity: 0.4;
+  cursor: default;
+}

@@ -1,0 +1,63 @@
+.grid {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: center;
+}
+
+.row {
+  display: flex;
+  gap: 6px;
+}
+
+.cell {
+  width: var(--cell);
+  height: var(--cell);
+  display: grid;
+  place-items: center;
+  border-radius: 5px;
+  background: var(--surface);
+  font-size: calc(var(--cell) * 0.5);
+  font-weight: 600;
+  text-transform: uppercase;
+  border: 2px solid transparent;
+  padding: 0;
+  color: inherit;
+  font-family: inherit;
+}
+
+/* The cell the next typed letter will land in. */
+.cursor {
+  border-color: var(--muted);
+}
+
+.gap {
+  width: 10px;
+}
+
+.signal {
+  width: var(--cell);
+  height: var(--cell);
+  display: grid;
+  place-items: center;
+  border-radius: 5px;
+  font-size: calc(var(--cell) * 0.45);
+  font-weight: 700;
+  color: #fff;
+  font-variant-numeric: tabular-nums;
+}
+
+.green {
+  background: var(--green);
+}
+.yellow {
+  background: var(--amber);
+}
+.red {
+  background: var(--red);
+}
+
+/* Rows not yet played show the three colours empty, as a promise of what is coming. */
+.pending {
+  opacity: 0.45;
+}
