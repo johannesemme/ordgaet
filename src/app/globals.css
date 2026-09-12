@@ -6,6 +6,9 @@
   --green: #4c9a55;
   --amber: #c9b458;
   --red: #cf4b3f;
+  --key: #3a403b;
+  --key-hover: #474e48;
+  --key-used: #24291f;
 }
 
 * {
@@ -24,4 +27,13 @@ body {
     "Segoe UI",
     Roboto,
     sans-serif;
+}
+
+/* The game fills the viewport; nothing should scroll sideways. */
+body {
+  overflow-x: hidden;
+}
+
+button {
+  cursor: pointer;
 }
