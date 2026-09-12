@@ -61,3 +61,23 @@
 .pending {
   opacity: 0.45;
 }
+
+/*
+ * The player's own notes on played letters. Same three colours as the count
+ * cells, because they mean the same three things — but here they record a
+ * belief, not a fact from the server.
+ */
+.mark_green {
+  background: var(--green);
+  color: #fff;
+}
+
+.mark_yellow {
+  background: var(--amber);
+  color: #fff;
+}
+
+.mark_red {
+  background: var(--red);
+  color: #fff;
+}

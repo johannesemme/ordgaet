@@ -6,6 +6,7 @@ import type { GameStatus } from "@/lib/rules";
 import styles from "./Game.module.css";
 import { Grid } from "./Grid";
 import { Keyboard } from "./Keyboard";
+import { markKey, nextMark, type Marks } from "./marks";
 import { BLANK, KEY_ROWS, type GuessResponse, type PlayedRow } from "./types";
 
 const LETTERS = new Set(KEY_ROWS.flat());
@@ -33,6 +34,9 @@ export function Game({ initialGameId, startupError }: Props) {
   const [status, setStatus] = useState<GameStatus>("active");
   const [answer, setAnswer] = useState<string | null>(null);
   const [message, setMessage] = useState(startupError ?? "");
+  // The player's own colour notes on played letters. Local only — never sent
+  // anywhere, never checked against the answer.
+  const [marks, setMarks] = useState<Marks>({});
   const [busy, setBusy] = useState(false);
 
   const isPlaying = status === "active" && gameId !== null;
@@ -51,6 +55,7 @@ export function Game({ initialGameId, startupError }: Props) {
       setCursor(0);
       setStatus("active");
       setAnswer(null);
+      setMarks({});
     } catch {
       setMessage("Kunne ikke starte spillet. Prøv igen.");
     } finally {
@@ -93,6 +98,12 @@ export function Game({ initialGameId, startupError }: Props) {
     setMessage("");
     setCurrent(emptyRow());
     setCursor(0);
+  }, []);
+
+  /** Cycle one played letter's note: none -> green -> yellow -> red -> none. */
+  const toggleMark = useCallback((row: number, cell: number) => {
+    const key = markKey(row, cell);
+    setMarks((current) => ({ ...current, [key]: nextMark(current[key] ?? null) }));
   }, []);
 
   const submit = useCallback(async () => {
@@ -177,7 +188,9 @@ export function Game({ initialGameId, startupError }: Props) {
           current={current}
           cursor={cursor}
           isPlaying={isPlaying}
+          marks={marks}
           onSelectCell={setCursor}
+          onToggleMark={toggleMark}
         />
 
         <p className={`${styles.message} ${message ? styles.error : (styles[status] ?? "")}`}>
