@@ -150,7 +150,14 @@ export function Game({ initialGameId, startupError }: Props) {
       if (event.metaKey || event.ctrlKey || event.altKey) return;
       const key = event.key;
 
-      if (key === "Enter") return void submit();
+      // Enter and Space are also how a browser activates a focused <button>.
+      // Without preventDefault, pressing Enter after clicking a letter would
+      // submit the guess AND re-click that letter, cycling its mark. Same for
+      // Space re-clicking whichever key was last tapped.
+      if (key === "Enter") {
+        event.preventDefault();
+        return void submit();
+      }
       if (key === "Backspace") return backspace();
       if (key === " ") {
         event.preventDefault();
